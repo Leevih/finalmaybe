@@ -11,11 +11,6 @@ const AddMoreItemsScreen = () => {
     const [textField, setTextField] = useState('');
     const [ textFieldPrice, setTextFieldPrice ] = useState(0);
 
-    if(app.state.newItems.length > 0) {
-        setHasData(true);
-        console.log('rip');
-    }
-
     const storeData = () => {
         const myData = {
             name: textField,
@@ -24,11 +19,13 @@ const AddMoreItemsScreen = () => {
         app.dispatch({ type: 'ADD_NEW_ITEM', payload: myData })
         setTextField('');
         setTextFieldPrice(0);
+        setHasData(true)
         console.log(app.state.newItems)
     }
 
     const renderData = () => {
-        return app.newItems.map(item => {
+        console.log(app.state.newItems)
+        return app.state.newItems.map(item => {
             <ListItem key={Math.random()}>
                 <Text>{item.name}</Text>
             </ListItem>
