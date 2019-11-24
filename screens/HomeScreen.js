@@ -19,14 +19,9 @@ const db = [
       id: 2
     },
     {
-      name: 'kannabis',
-      hinta: 20,
-      id: 3
-    },
-    {
       name: 'kiasma-opiskelija',
       hinta: 13,
-      id: 4
+      id: 3
     },
   ];
 

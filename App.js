@@ -18,7 +18,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 const initialState = {
   selectedItems: [],
-  allItems: []
+  allItems: [],
+  newItems: [],
 }
 
 const App = () => {

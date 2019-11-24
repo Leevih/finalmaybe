@@ -18,11 +18,11 @@ const NewReceiptScreen = ({ navigation }) => {
                     <List>
                         {app.state.allItems.map(item => {
                             return (
-                                <ListItem key={item.id}>
+                                <ListItem key={item.id} style={styles.singleItem}>
                                     <Text>{item.name}</Text>
                                     <Text>{item.hinta.toString()}</Text>
-                                    <Button onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item })}><Text>+</Text></Button>
-                                    <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}><Text>-</Text></Button>
+                                        <Button style={styles.listButtons} onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item })}><Text>+</Text></Button>
+                                        <Button style={styles.listButtons} onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}><Text>-</Text></Button>
                                 </ListItem>
                             )
                         })}
@@ -55,9 +55,18 @@ const styles = StyleSheet.create({
       bottom: 0,
       left: 0,
       right: 0,
-      alignItems: 'center',
+      //alignItems: 'center',
       backgroundColor: '#fbfbfb',
       paddingVertical: 20,
     },
+    singleItem: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    listButtons: {
+        position: 'relative',
+        left: 100,
+        right: 0
+    }
 
 });  

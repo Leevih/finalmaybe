@@ -34,6 +34,13 @@
             selectedTotal: state.selected.reduce((acc, obj) => acc + obj.price, 0)
           }
         }
+      case 'ADD_NEW_ITEM':
+        {
+          return {
+            ...state,
+            newItems: state.newItems.concat(action.payload)
+          }
+        }
       default: {
         return state;
       }
