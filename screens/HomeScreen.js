@@ -1,27 +1,48 @@
 import React, { useEffect, useContext } from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View } from 'react-native';
 import AppContext from '../AppContext';
+import { Button } from 'native-base';
 
 const db = [
     {
-      name: 'ruoka',
-      hinta: 5,
+      key: 'ruoka',
+      price: 5,
       id: 0
     },
     {
-      name: 'vesi',
-      hinta: 1,
+      key: 'vesi',
+      price: 1,
       id: 1
     },
     {
-      name: 'olut',
-      hinta: 3,
+      key: 'olut',
+      price: 3,
       id: 2
     },
     {
-      name: 'kiasma-opiskelija',
-      hinta: 13,
+      key: 'kiasma-opiskelija',
+      price: 13,
       id: 3
+    },
+    {
+      key: 'elämä',
+      price: 50,
+      id: 4
+    },
+    {
+      key: 'koira',
+      price: 13,
+      id: 5
+    },
+    {
+      key: 'kuolema',
+      price: 35,
+      id: 6
+    },
+    {
+      key: 'ooppera',
+      price: 75,
+      id: 7
     },
   ];
 
@@ -36,13 +57,15 @@ const HomeScreen = ({ navigation }) => {
         <View>
                 <Text>HomeScreen</Text>
                 <Button
-                    title="Create a new receipt"
                     onPress={() => navigation.navigate('NewReceipt')}
-                />
+                >
+                  <Text>Create a new receipt</Text>
+                </Button>
                 <Button
-                    title="Add more items"
                     onPress={() => navigation.navigate('AddMoreItems')}
-                />
+                >
+                  <Text>Add more items</Text>
+                </Button>
         </View>
     )
 }

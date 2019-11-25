@@ -16,8 +16,9 @@ const ReviewReceiptScreen = () => {
                         {app.state.selectedItems.map(item => {
                             return (
                                 <ListItem key={item.id + Math.random()}>
-                                    <Text>{item.name}</Text>
-                                    <Text>{item.hinta.toString()}</Text>
+                                    <Text>{item.key} </Text>
+                                    <Text> {item.price.toString()} euros</Text>
+                                    <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item})}><Text>Remove</Text></Button>
                                 </ListItem>
                             )
                         })}

@@ -1,47 +1,74 @@
-import React, { useEffect, useContext } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useContext, useState } from 'react';
+import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
 import AppContext from '../AppContext';
 import { Container, Header, Content, List, ListItem, Text, Button } from 'native-base';
 
+//import TabBarForNewReceipt from '../components/TabBarForNewReceipt';
+
 const NewReceiptScreen = ({ navigation }) => {
     const app = useContext(AppContext);
+    const [ tabBarVisible, setTabBarVisible ] = useState(true)
 
-    useEffect(() => {
-        console.log(app.state.allItems)
-    }, [])
+    const renderList = ({ item }) => {
+        return (
+            <View style={styles.listContainer}>
+                <Text style={styles.itemName}>{item.key}</Text>
+                <Text style={styles.itemPrice}>{item.price.toString()} e</Text>
+                <Button
+                    onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item })}>
+                    <Text>Add</Text>
+                </Button>
+                <Button
+                    onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}>
+                    <Text>Remove</Text>
+                </Button>
+            </View>
+        )
+    }
 
     return (
-        <View>
-            <ScrollView>
-                <Text>NewReceiptScreen</Text>
+        <View style={styles.container}>
+            <Button onPress={() => setTabBarVisible(!tabBarVisible)}>
+                <Text>change TabBar state</Text>
+            </Button>
+             <FlatList
+                data={app.state.allItems}
+                renderItem={(item) => renderList(item)}
+            />
+{/*             <ScrollView>
                 <Container>
-                    <List>
+                    <Content>
+                        <List>
                         {app.state.allItems.map(item => {
                             return (
-                                <ListItem key={item.id} style={styles.singleItem}>
-                                    <Text>{item.name}</Text>
-                                    <Text>{item.hinta.toString()}</Text>
-                                        <Button style={styles.listButtons} onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item })}><Text>+</Text></Button>
-                                        <Button style={styles.listButtons} onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}><Text>-</Text></Button>
+                                <ListItem key={item.id + Math.random()}>
+                                    <Text>{item.key} </Text>
+                                    <Text> {item.price.toString()} euros</Text>
+                                    <Button onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item})}><Text>Add</Text></Button>
+                                    <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item})}><Text>Remove</Text></Button>
                                 </ListItem>
                             )
                         })}
-                    </List>
+                        </List>
+                    </Content>
                 </Container>
-            </ScrollView>
-            <View style={styles.tabBarInfoContainer}>
+            </ScrollView> */}
+            {tabBarVisible ? 
+            <View style={styles.tabBarInfoContainer} hide>
                 <Button
-                    onPress={() => console.log(app.state.selectedItems)}
+                    onPress={() => console.log(app.state.allItems)}
                 >
-                <Text>Show</Text>
+                    <Text>Show</Text>
                 </Button>
-                {/* <Text>Total is {app.state.selectedItems.length > 0 ? app.state.selectedTotal.toFixed(2) : 0} euros</Text> */}
                 <Button
                     onPress={() => navigation.navigate('ReviewReceipt')}
                 >
-                <Text>Next</Text>
+                    <Text>Next</Text>
                 </Button>
-            </View>
+            </View> 
+            :
+             null}
+
         </View>
     )
 }
@@ -50,23 +77,31 @@ export default NewReceiptScreen;
 
 
 const styles = StyleSheet.create({
-    tabBarInfoContainer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      //alignItems: 'center',
-      backgroundColor: '#fbfbfb',
-      paddingVertical: 20,
+    container: {
+        flex: 1,
+        paddingTop: 22
     },
-    singleItem: {
-        display: 'flex',
-        flexDirection: 'row'
+    itemName: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
     },
-    listButtons: {
-        position: 'relative',
-        left: 100,
-        right: 0
-    }
+    itemPrice: {
+        padding: 20,
+        fontSize: 15,
+        marginLeft: 20,
+    },
+    listContainer: {
 
+    },
+    tabBarInfoContainer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        //alignItems: 'center',
+        backgroundColor: '#fbfbfb',
+        paddingVertical: 20,
+        flex: 1,
+    },
 });  

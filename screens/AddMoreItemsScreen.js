@@ -9,27 +9,23 @@ const AddMoreItemsScreen = () => {
     const app = useContext(AppContext);
     const [ hasData, setHasData ] = useState(false);
     const [textField, setTextField] = useState('');
-    const [ textFieldPrice, setTextFieldPrice ] = useState(0);
+    const [ textFieldPrice, setTextFieldPrice ] = useState('');
 
     const storeData = () => {
         const myData = {
-            name: textField,
-            price: textFieldPrice,
+            key: textField,
+            price: parseFloat(textFieldPrice),
+            id: Math.floor(Math.random()* 999 * app.state.allItems.length),
         }
         app.dispatch({ type: 'ADD_NEW_ITEM', payload: myData })
         setTextField('');
         setTextFieldPrice(0);
         setHasData(true)
-        console.log(app.state.newItems)
+        //console.log(app.state.newItems)
     }
 
-    const renderData = () => {
-        console.log(app.state.newItems)
-        return app.state.newItems.map(item => {
-            <ListItem key={Math.random()}>
-                <Text>{item.name}</Text>
-            </ListItem>
-        })
+    const handleRemove = (item) => {
+        app.dispatch({ type: 'REMOVE_THIS_FROM_ALL', payload: item})
     }
 
     return (
@@ -52,11 +48,22 @@ const AddMoreItemsScreen = () => {
                 </Button>
             </View>
             <ScrollView>
-                <List>
-                    { hasData ? renderData() : null }
-                </List>
+                <Container>
+                    <Content>
+                        <List>
+                        {app.state.allItems.map(item => {
+                            return (
+                                <ListItem key={item.id}>
+                                    <Text>{item.key} </Text>
+                                    <Text> {item.price.toString()} euros</Text>
+                                    <Button onPress={() => handleRemove(item)}><Text>Remove</Text></Button>
+                                </ListItem>
+                            )
+                        })}
+                        </List>
+                    </Content>
+                </Container>
             </ScrollView>
-
         </View>
     )
 }

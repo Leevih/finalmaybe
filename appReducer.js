@@ -17,7 +17,7 @@
         }
       case 'REMOVE_THIS':
         {
-          const index = state.selectedItems.findIndex(item => { return item.name === action.payload.name; })
+          const index = state.selectedItems.findIndex(item => { return item.key === action.payload.key; })
           const newArray = [...state.selectedItems]
           if(index !== -1){
             newArray.splice(index, 1)
@@ -38,7 +38,15 @@
         {
           return {
             ...state,
-            newItems: state.newItems.concat(action.payload)
+            allItems: state.allItems.concat(action.payload)
+          }
+        }
+      case 'REMOVE_THIS_FROM_ALL':
+        {
+          const newArray = state.allItems.filter(item => item.id !== action.payload.id)
+          return {
+            ...state,
+            allItems: newArray
           }
         }
       default: {
