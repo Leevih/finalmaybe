@@ -2,6 +2,8 @@ import React, { useEffect, useContext } from 'react';
 import { Text, View } from 'react-native';
 import AppContext from '../AppContext';
 import { Button } from 'native-base';
+import productsService from '../services/produt-service.js';
+import receiptService from '../services/receipt-service.js';
 
 const db = [
     {
@@ -40,7 +42,7 @@ const db = [
       id: 6
     },
     {
-      key: 'ooppera',
+      key: 'oopera',
       price: 75,
       id: 7
     },
@@ -50,9 +52,25 @@ const HomeScreen = ({ navigation }) => {
     const app = useContext(AppContext);
 
     useEffect(() => {
-        app.dispatch({ type: 'SET_ITEMS', payload: db })
+      productsService
+      .getAll()
+      .then(res => {
+        app.dispatch({ type: 'SET_ITEMS', payload: res.data })
+        console.log(res.data)
+      })
+
+      receiptService
+      .getAll()
+      .then(res => {
+        app.dispatch({ type: 'SET_RECEIPTS', payload: res.data});
+      })
+
     }, [])
 
+/*     useEffect(() => {
+        app.dispatch({ type: 'SET_ITEMS', payload: db })
+    }, [])
+ */
     return (
         <View>
                 <Text>HomeScreen</Text>
@@ -65,6 +83,11 @@ const HomeScreen = ({ navigation }) => {
                     onPress={() => navigation.navigate('AddMoreItems')}
                 >
                   <Text>Add more items</Text>
+                </Button>
+                <Button
+                  onPress={() => navigation.navigate('ViewAllReceipts')}
+                >
+                    <Text>All receipts</Text>
                 </Button>
         </View>
     )

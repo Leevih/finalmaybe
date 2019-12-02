@@ -3,31 +3,14 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import AppContext from '../AppContext';
 import { Container, Header, Content, List, ListItem, Text, Button } from 'native-base';
 
-import receiptService from '../services/receipt-service';
-
-
-const ReviewReceiptScreen = ({ navigation }) => {
+const AllReceiptsScreen = ({ navigation }) => {
     const app = useContext(AppContext);
 
-    const handleSubmit = () => {
-        const reduceThePrice = (array) => {
-            const prices = array.map(item => item.price)
-            const price = prices.reduce((x, y) => { return x + y}, 0)
-            return price;
-        }
-
-        const data = {
-            products: app.state.selectedItems,
-            total: reduceThePrice(app.state.selectedItems),
-        };
-
-        receiptService
-        .postItem(data)
-        .then(res => {
-            console.log(res.data);
-        })
-        navigation.navigate('Home')
-    };
+    const handleReceiptSelection = (item) => {
+        app.dispatch({ type: 'SET_SELECTED_RECEIPT', payload: item});
+        navigation.navigate('SingleReceipt');
+        //console.log(app.state.SingleReceipt)
+    }
 
     return (
         <View>
@@ -36,12 +19,12 @@ const ReviewReceiptScreen = ({ navigation }) => {
                 <Container>
                     <Content>
                         <List>
-                        {app.state.selectedItems.map(item => {
+                        {app.state.allReceipts.map(item => {
                             return (
                                 <ListItem key={item._id + Math.random()}>
-                                    <Text>{item.title} </Text>
-                                    <Text> {item.price.toString()} euros</Text>
-                                    <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item})}><Text>Remove</Text></Button>
+                                    <Text>{item.date} </Text>
+                                    <Text> {item.total.toString()} euros</Text>
+                                     <Button onPress={() => handleReceiptSelection(item)}><Text>SELECT</Text></Button>
                                 </ListItem>
                             )
                         })}
@@ -50,11 +33,7 @@ const ReviewReceiptScreen = ({ navigation }) => {
                 </Container>
             </ScrollView>
             <View style={styles.tabBarInfoContainer} hide>
-                <Button
-                    onPress={() => handleSubmit()}
-                >
-                    <Text>Send</Text>
-                </Button>
+
             </View>
         </View>
     )
@@ -91,4 +70,4 @@ const styles = StyleSheet.create({
     },
 });  
 
-export default ReviewReceiptScreen;
+export default AllReceiptsScreen;

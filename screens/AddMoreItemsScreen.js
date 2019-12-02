@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import AppContext from '../AppContext'
 import { Container, Header, Content, List, ListItem, Text, Button } from 'native-base';
 
+import productService from '../services/produt-service';
 
 const AddMoreItemsScreen = () => {
     const app = useContext(AppContext);
@@ -13,11 +14,17 @@ const AddMoreItemsScreen = () => {
 
     const storeData = () => {
         const myData = {
-            key: textField,
+            title: textField,
             price: parseFloat(textFieldPrice),
-            id: Math.floor(Math.random()* 999 * app.state.allItems.length),
         }
-        app.dispatch({ type: 'ADD_NEW_ITEM', payload: myData })
+
+        productService
+        .postItem(myData)
+        .then(res => {
+            app.dispatch({ type: 'ADD_NEW_ITEM', payload: res.data })
+            console.log(res.data);
+        });
+
         setTextField('');
         setTextFieldPrice(0);
         setHasData(true)
@@ -25,7 +32,13 @@ const AddMoreItemsScreen = () => {
     }
 
     const handleRemove = (item) => {
-        app.dispatch({ type: 'REMOVE_THIS_FROM_ALL', payload: item})
+        productService
+        .deleteItem(item)
+        .then(res => {
+            app.dispatch({ type: 'REMOVE_THIS_FROM_ALL', payload: item});
+            console.log(res.data);
+        });
+        
     }
 
     return (
@@ -53,8 +66,8 @@ const AddMoreItemsScreen = () => {
                         <List>
                         {app.state.allItems.map(item => {
                             return (
-                                <ListItem key={item.id}>
-                                    <Text>{item.key} </Text>
+                                <ListItem key={item._id}>
+                                    <Text>{item.title} </Text>
                                     <Text> {item.price.toString()} euros</Text>
                                     <Button onPress={() => handleRemove(item)}><Text>Remove</Text></Button>
                                 </ListItem>

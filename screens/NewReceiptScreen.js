@@ -12,7 +12,7 @@ const NewReceiptScreen = ({ navigation }) => {
     const renderList = ({ item }) => {
         return (
             <View style={styles.listContainer}>
-                <Text style={styles.itemName}>{item.key}</Text>
+                <Text style={styles.itemName}>{item.title}</Text>
                 <Text style={styles.itemPrice}>{item.price.toString()} e</Text>
                 <Button
                     onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item })}>
@@ -34,25 +34,8 @@ const NewReceiptScreen = ({ navigation }) => {
              <FlatList
                 data={app.state.allItems}
                 renderItem={(item) => renderList(item)}
+                keyExtractor={item => item._id}
             />
-{/*             <ScrollView>
-                <Container>
-                    <Content>
-                        <List>
-                        {app.state.allItems.map(item => {
-                            return (
-                                <ListItem key={item.id + Math.random()}>
-                                    <Text>{item.key} </Text>
-                                    <Text> {item.price.toString()} euros</Text>
-                                    <Button onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item})}><Text>Add</Text></Button>
-                                    <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item})}><Text>Remove</Text></Button>
-                                </ListItem>
-                            )
-                        })}
-                        </List>
-                    </Content>
-                </Container>
-            </ScrollView> */}
             {tabBarVisible ? 
             <View style={styles.tabBarInfoContainer} hide>
                 <Button

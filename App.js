@@ -6,6 +6,9 @@ import HomeScreen from './screens/HomeScreen';
 import NewReceiptScreen from './screens/NewReceiptScreen';
 import ReviewReceiptScreen from './screens/ReviewReceiptScreen';
 import AddMoreItemsScreen from './screens/AddMoreItemsScreen';
+import ReceiptScreen from './screens/ReceiptScreen';
+import AllReceiptsScreen from './screens/AllReceiptsScreen';
+
 
 import { AppProvider } from './AppContext';
 import appReducer from './appReducer';
@@ -20,6 +23,8 @@ const initialState = {
   selectedItems: [],
   allItems: [],
   newItems: [],
+  allReceipts: [],
+  singleReceipt: {},
 }
 
 const App = () => {
@@ -47,6 +52,8 @@ const AppNavigator = createStackNavigator(
       NewReceipt: NewReceiptScreen,
       ReviewReceipt: ReviewReceiptScreen,
       AddMoreItems: AddMoreItemsScreen,
+      ViewAllReceipts: AllReceiptsScreen,
+      SingleReceipt: ReceiptScreen,
   },
   {
       initialRouteName: 'Home',

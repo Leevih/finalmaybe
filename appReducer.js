@@ -8,6 +8,13 @@
             allItems: action.payload
           }
         }
+      case 'SET_RECEIPTS':
+        {
+          return {
+            ...state,
+            allReceipts: action.payload
+          }
+        }
       case 'ADD_THIS':
         {
           return {
@@ -43,10 +50,17 @@
         }
       case 'REMOVE_THIS_FROM_ALL':
         {
-          const newArray = state.allItems.filter(item => item.id !== action.payload.id)
+          const newArray = state.allItems.filter(item => item._id !== action.payload._id)
           return {
             ...state,
             allItems: newArray
+          }
+        }
+      case 'SET_SELECTED_RECEIPT':
+        {
+          return {
+            ...state,
+            singleReceipt: action.payload,
           }
         }
       default: {
