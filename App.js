@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -29,34 +29,48 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-      Font.loadAsync({
+    // Ei mitään helvetin hajua saako näin tehdä :DDD
+    // En vaan siedä noita luokkakomponentteja
+    async function load() {
+      await Font.loadAsync({
         Roboto: require('native-base/Fonts/Roboto.ttf'),
         Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
         ...Ionicons.font,
       });
-      //this.setState({ isReady: true });
+      setIsLoading(false);
+    }
+    load();
+
   }, [])
-  
-  return (
+
+  if (isLoading) {
+    return (
+      <AppLoading />
+    )
+  } else {
+    return (
       <AppProvider value={{ state, dispatch }}>
         <AppContainer />
       </AppProvider>
-  );
+    );
+  }
+
 }
 
 const AppNavigator = createStackNavigator(
   {
-      Home: HomeScreen,
-      NewReceipt: NewReceiptScreen,
-      ReviewReceipt: ReviewReceiptScreen,
-      AddMoreItems: AddMoreItemsScreen,
-      ViewAllReceipts: AllReceiptsScreen,
-      SingleReceipt: ReceiptScreen,
+    Home: HomeScreen,
+    NewReceipt: NewReceiptScreen,
+    ReviewReceipt: ReviewReceiptScreen,
+    AddMoreItems: AddMoreItemsScreen,
+    ViewAllReceipts: AllReceiptsScreen,
+    SingleReceipt: ReceiptScreen,
   },
   {
-      initialRouteName: 'Home',
+    initialRouteName: 'Home',
   }
 )
 

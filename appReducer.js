@@ -15,6 +15,13 @@
             allReceipts: action.payload
           }
         }
+      case 'ADD_RECEIPT':
+        {
+          return {
+            ...state,
+            allReceipts: state.allReceipts.concat(action.payload),
+          }
+        }
       case 'ADD_THIS':
         {
           return {

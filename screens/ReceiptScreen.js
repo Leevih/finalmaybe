@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import AppContext from '../AppContext';
-import { Button } from 'native-base';
+import { Text, Button } from 'native-base';
 import { FlatList } from 'react-native-gesture-handler';
+import moment from 'moment';
 
 const ReceiptScreen = ({ navigation }) => {
     const app = useContext(AppContext);
@@ -19,13 +20,12 @@ const ReceiptScreen = ({ navigation }) => {
 
     return (
         <View>
-                <Text>ReceiptScreen</Text>
-                <Text>{ app.state.singleReceipt.total.toString() }</Text>
-                <Text>{ app.state.singleReceipt.date }</Text>
+                <Text>{ app.state.singleReceipt.total.toString() } euros</Text>
+                <Text>{ moment(app.state.singleReceipt.date).format('DD/MM/YYYY HH:mm') }</Text>
                 <FlatList
                 data={app.state.singleReceipt.products}
                 renderItem={(item) => renderList(item)}
-                keyExtractor={item => item._id}
+                keyExtractor={item => item._id + Math.random()}
             />
         </View>
     )

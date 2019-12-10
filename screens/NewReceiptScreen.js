@@ -1,24 +1,21 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
 import AppContext from '../AppContext';
-import { Container, Header, Content, List, ListItem, Text, Button } from 'native-base';
-
-//import TabBarForNewReceipt from '../components/TabBarForNewReceipt';
+import { Text, Button } from 'native-base';
 
 const NewReceiptScreen = ({ navigation }) => {
     const app = useContext(AppContext);
-    const [ tabBarVisible, setTabBarVisible ] = useState(true)
 
     const renderList = ({ item }) => {
         return (
             <View style={styles.listContainer}>
                 <Text style={styles.itemName}>{item.title}</Text>
                 <Text style={styles.itemPrice}>{item.price.toString()} e</Text>
-                <Button
+                <Button style={styles.listButton}
                     onPress={() => app.dispatch({ type: 'ADD_THIS', payload: item })}>
                     <Text>Add</Text>
                 </Button>
-                <Button
+                <Button style={styles.listButton}
                     onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}>
                     <Text>Remove</Text>
                 </Button>
@@ -28,30 +25,14 @@ const NewReceiptScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Button onPress={() => setTabBarVisible(!tabBarVisible)}>
-                <Text>change TabBar state</Text>
+            <Button onPress={() => navigation.navigate('ReviewReceipt')}>
+                <Text>Preview your receipt</Text>
             </Button>
              <FlatList
                 data={app.state.allItems}
                 renderItem={(item) => renderList(item)}
                 keyExtractor={item => item._id}
             />
-            {tabBarVisible ? 
-            <View style={styles.tabBarInfoContainer} hide>
-                <Button
-                    onPress={() => console.log(app.state.allItems)}
-                >
-                    <Text>Show</Text>
-                </Button>
-                <Button
-                    onPress={() => navigation.navigate('ReviewReceipt')}
-                >
-                    <Text>Next</Text>
-                </Button>
-            </View> 
-            :
-             null}
-
         </View>
     )
 }
@@ -65,26 +46,24 @@ const styles = StyleSheet.create({
         paddingTop: 22
     },
     itemName: {
-        padding: 10,
+        paddingTop: 5,
         fontSize: 18,
         height: 44,
     },
     itemPrice: {
-        padding: 20,
+        paddingBottom: 5,
         fontSize: 15,
         marginLeft: 20,
     },
     listContainer: {
-
+        width: '90%',
+        marginLeft: '5%',
+        justifyContent: 'center'
     },
-    tabBarInfoContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        //alignItems: 'center',
-        backgroundColor: '#fbfbfb',
-        paddingVertical: 20,
-        flex: 1,
-    },
+    listButton: {
+        marginBottom: '1%',
+         width: '50%',
+        marginLeft: '25%',
+        justifyContent: 'center'
+    }
 });  

@@ -12,7 +12,7 @@ const ReviewReceiptScreen = ({ navigation }) => {
     const handleSubmit = () => {
         const reduceThePrice = (array) => {
             const prices = array.map(item => item.price)
-            const price = prices.reduce((x, y) => { return x + y}, 0)
+            const price = prices.reduce((x, y) => { return x + y }, 0)
             return price;
         }
 
@@ -22,40 +22,40 @@ const ReviewReceiptScreen = ({ navigation }) => {
         };
 
         receiptService
-        .postItem(data)
-        .then(res => {
-            console.log(res.data);
-        })
+            .postItem(data)
+            .then(res => {
+                console.log(res.data);
+                app.dispatch({ type: 'ADD_RECEIPT', payload: res.data });
+            })
         navigation.navigate('Home')
     };
 
     return (
         <View>
-            <Text>ReviewReceiptScreen</Text>
-            <ScrollView>
-                <Container>
-                    <Content>
-                        <List>
-                        {app.state.selectedItems.map(item => {
-                            return (
-                                <ListItem key={item._id + Math.random()}>
-                                    <Text>{item.title} </Text>
-                                    <Text> {item.price.toString()} euros</Text>
-                                    <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item})}><Text>Remove</Text></Button>
-                                </ListItem>
-                            )
-                        })}
-                        </List>
-                    </Content>
-                </Container>
-            </ScrollView>
-            <View style={styles.tabBarInfoContainer} hide>
-                <Button
+            <View>
+                <Button  style={styles.send}
                     onPress={() => handleSubmit()}
                 >
                     <Text>Send</Text>
                 </Button>
             </View>
+            <ScrollView>
+                <Container>
+                    <Content>
+                        <List>
+                            {app.state.selectedItems.map(item => {
+                                return (
+                                    <ListItem key={item._id + Math.random()}>
+                                        <Text>{item.title} </Text>
+                                        <Text> {item.price.toString()} euros</Text>
+                                        <Button onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}><Text>Remove</Text></Button>
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    </Content>
+                </Container>
+            </ScrollView>
         </View>
     )
 }
@@ -79,16 +79,9 @@ const styles = StyleSheet.create({
     listContainer: {
 
     },
-    tabBarInfoContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        //alignItems: 'center',
-        backgroundColor: '#fbfbfb',
-        paddingVertical: 20,
-        flex: 1,
-    },
-});  
+    send: {
+        alignContent: 'center'
+    }
+});
 
 export default ReviewReceiptScreen;

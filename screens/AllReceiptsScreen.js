@@ -2,40 +2,42 @@ import React, { useEffect, useContext } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import AppContext from '../AppContext';
 import { Container, Header, Content, List, ListItem, Text, Button } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import moment from 'moment';
 
 const AllReceiptsScreen = ({ navigation }) => {
     const app = useContext(AppContext);
 
     const handleReceiptSelection = (item) => {
-        app.dispatch({ type: 'SET_SELECTED_RECEIPT', payload: item});
+        app.dispatch({ type: 'SET_SELECTED_RECEIPT', payload: item });
         navigation.navigate('SingleReceipt');
         //console.log(app.state.SingleReceipt)
     }
 
     return (
         <View>
-            <Text>ReviewReceiptScreen</Text>
             <ScrollView>
                 <Container>
                     <Content>
                         <List>
-                        {app.state.allReceipts.map(item => {
-                            return (
-                                <ListItem key={item._id + Math.random()}>
-                                    <Text>{item.date} </Text>
-                                    <Text> {item.total.toString()} euros</Text>
-                                     <Button onPress={() => handleReceiptSelection(item)}><Text>SELECT</Text></Button>
-                                </ListItem>
-                            )
-                        })}
+                            {app.state.allReceipts.map(item => {
+                                return (
+                                    <TouchableOpacity onPress={() => handleReceiptSelection(item)} key={item._id + Math.random()}>
+                                    <ListItem >
+                                        <Text>{moment(item.date).format('DD/MM/YYYY HH:mm')} </Text>
+                                        <Text> {item.total.toString()} euros</Text>
+                                    </ListItem>
+                                 </TouchableOpacity>
+                        )
+                    })}
                         </List>
                     </Content>
                 </Container>
             </ScrollView>
-            <View style={styles.tabBarInfoContainer} hide>
+        <View style={styles.tabBarInfoContainer} hide>
 
-            </View>
         </View>
+        </View >
     )
 }
 
@@ -68,6 +70,6 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         flex: 1,
     },
-});  
+});
 
 export default AllReceiptsScreen;
