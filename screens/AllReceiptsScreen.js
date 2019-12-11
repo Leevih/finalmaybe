@@ -25,7 +25,7 @@ const AllReceiptsScreen = ({ navigation }) => {
                                     <TouchableOpacity onPress={() => handleReceiptSelection(item)} key={item._id + Math.random()}>
                                     <ListItem >
                                         <Text>{moment(item.date).format('DD/MM/YYYY HH:mm')} </Text>
-                                        <Text> {item.total.toString()} euros</Text>
+                                        <Text> {item.total.toFixed(2).toString()} euros</Text>
                                     </ListItem>
                                  </TouchableOpacity>
                         )

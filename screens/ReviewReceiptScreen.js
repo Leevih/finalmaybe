@@ -4,6 +4,7 @@ import AppContext from '../AppContext';
 import { Container, Header, Content, List, ListItem, Text, Button } from 'native-base';
 
 import receiptService from '../services/receipt-service';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 const ReviewReceiptScreen = ({ navigation }) => {
@@ -30,15 +31,35 @@ const ReviewReceiptScreen = ({ navigation }) => {
         navigation.navigate('Home')
     };
 
+    
+    const renderList = ({ item }) => {
+        return (
+            <View style={styles.listContainer}>
+                <Text style={styles.itemName}>{item.title}</Text>
+                <Text style={styles.itemPrice}>{item.price.toString()} e</Text>
+                <Button style={styles.listButton}
+                    onPress={() => app.dispatch({ type: 'REMOVE_THIS', payload: item })}>
+                    <Text>Remove</Text>
+                </Button>
+            </View>
+        )
+    }
+
     return (
         <View>
             <View>
-                <Button  style={styles.send}
+                <Button style={styles.send}
                     onPress={() => handleSubmit()}
                 >
                     <Text>Send</Text>
                 </Button>
             </View>
+            <FlatList
+                style={styles.list}
+                data={app.state.selectedItems}
+                renderItem={(item) => renderList(item)}
+                keyExtractor={item => item._id + Math.random()}
+            />{/* 
             <ScrollView>
                 <Container>
                     <Content>
@@ -55,7 +76,7 @@ const ReviewReceiptScreen = ({ navigation }) => {
                         </List>
                     </Content>
                 </Container>
-            </ScrollView>
+            </ScrollView> */}
         </View>
     )
 }
@@ -81,7 +102,12 @@ const styles = StyleSheet.create({
     },
     send: {
         alignContent: 'center'
-    }
+    },
+    list: {
+        marginTop: '2%',
+        marginBottom: '18%'
+    },
+
 });
 
 export default ReviewReceiptScreen;

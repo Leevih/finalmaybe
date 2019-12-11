@@ -14,7 +14,6 @@ const HomeScreen = ({ navigation }) => {
       .getAll()
       .then(res => {
         app.dispatch({ type: 'SET_ITEMS', payload: res.data })
-        console.log(res.data)
       })
 
       receiptService
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: '2%',
+    justifyContent: 'center'
   }
 });
 

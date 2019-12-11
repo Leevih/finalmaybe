@@ -1,6 +1,13 @@
 
   const appReducer = (state, action) => {
     switch (action.type) {
+      case 'DELETE_RECEIPT': 
+      {
+        return {
+          ...state,
+          allReceipts: state.allReceipts.filter(item => item._id !== action.payload)
+        }
+      }
       case 'SET_ITEMS':
         {
           return {
@@ -31,7 +38,7 @@
         }
       case 'REMOVE_THIS':
         {
-          const index = state.selectedItems.findIndex(item => { return item.key === action.payload.key; })
+          const index = state.selectedItems.findIndex(item => { return item._id === action.payload._id; })
           const newArray = [...state.selectedItems]
           if(index !== -1){
             newArray.splice(index, 1)
