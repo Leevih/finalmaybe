@@ -1,7 +1,7 @@
-import { View, TextInput, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { View, TextInput, StyleSheet, FlatList } from 'react-native';
 import React, { useState, useContext } from 'react';
 import AppContext from '../AppContext';
-import { Container, Content, List, ListItem, Text, Button, Input, Item, Header } from 'native-base';
+import { Text, Button } from 'native-base';
 
 import productService from '../services/produt-service';
 
@@ -14,7 +14,7 @@ const AddMoreItemsScreen = () => {
     const storeData = () => {
         const myData = {
             title: textField,
-            price: parseFloat(textFieldPrice),
+            price: parseFloat(textFieldPrice.replace(/,/g, '.')),
         }
 
         productService
@@ -42,7 +42,7 @@ const AddMoreItemsScreen = () => {
 
     const renderList = ({ item }) => {
         return (
-            <View style={styles.listContainer}>
+            <View>
                 <Text style={styles.itemName}>{item.title}</Text>
                 <Text style={styles.itemPrice}>{item.price.toString()} e</Text>
                 <Button style={styles.listButton}
@@ -75,18 +75,20 @@ const AddMoreItemsScreen = () => {
                         </Button>
                     </View>
                 </View>
-                <FlatList
-                    style={styles.list}
-                    data={app.state.allItems}
-                    renderItem={(item) => renderList(item)}
-                    keyExtractor={item => item._id}
-                />
+                <View style={styles.listContainer}>
+                    <FlatList
+                        style={styles.list}
+                        data={app.state.allItems}
+                        renderItem={(item) => renderList(item)}
+                        keyExtractor={item => item._id}
+                    />
+                </View>
             </View>
         </View>
     )
 };
 
- 
+
 const styles = StyleSheet.create({
     main: {
         display: 'flex',
@@ -118,15 +120,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         justifyContent: 'center',
     },
-    tabBarInfoContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        //alignItems: 'center',
-        backgroundColor: '#fbfbfb',
-        paddingVertical: 20,
-        flex: 1,
+    listContainer: {
+        paddingBottom: '25%',
     },
-});  
+    input: {
+        height: 60
+    }
+});
 export default AddMoreItemsScreen;

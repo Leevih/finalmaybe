@@ -25,9 +25,9 @@ const NewReceiptScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Button onPress={() => navigation.navigate('ReviewReceipt')}>
+{app.state.selectedItems.length > 0 ? <Button onPress={() => navigation.navigate('ReviewReceipt')}>
                 <Text>Preview your receipt</Text>
-            </Button>
+            </Button> : null}
              <FlatList
                 data={app.state.allItems}
                 renderItem={(item) => renderList(item)}
